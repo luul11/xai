@@ -104,7 +104,8 @@ async def chat_completions(req: ChatRequest, request: Request):
 # 保持原来的模型列表端点，新增三个grok-4系列模型到备用数据
 @app.get("/v1/models")
 async def get_models(request: Request):
-    api_key = request.headers.get("Authorization", "").replace("Bearer ", "")
+    api_key = request.headers.get("X-XAI-API-Key", "")  # 新增：自定义头
+
     if not api_key:
         raise HTTPException(status_code=401, detail="缺少API密钥")
 
